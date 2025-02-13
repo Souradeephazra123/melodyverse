@@ -1,281 +1,163 @@
-// "use client";
+"use client";
 
-// import { useEffect, useMemo, useState } from "react";
-// import { useFormStatus } from "react-dom";
-// import { Controller, useForm, useFormState } from "react-hook-form";
+import { useEffect, useMemo, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { Controller, useForm, useFormState } from "react-hook-form";
 
-// import { toast, ToastContainer } from "react-toastify";
-// import Link from "next/link";
-// import { createEvent, getEvents } from "@/app/dashboard/action";
-// import { useRouter } from "next/navigation";
-// import { FaCirclePlus } from "react-icons/fa6";
+import { toast, ToastContainer } from "react-toastify";
+import Link from "next/link";
+import { getEvents } from "@/app/dashboard/action";
+import { useRouter } from "next/navigation";
+import { FaCirclePlus, FaPlay } from "react-icons/fa6";
 // import { DatePkr } from "./ui/date-pkr";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import { IoMdPause } from "react-icons/io";
 
-// interface formdata {
-//   userId: string;
-//   name: string;
-//   description: string;
-//   category: string;
-//   capacity: number;
-//   visibility: string;
-// }
+interface event {
+  title: string;
+  src: string;
+  artists: string[];
+}
 
-// interface event {
-//   name: string;
-//   description: string;
-//   category: string;
-//   capacity: number;
-//   visibility: string;
-// }
+const Event = ({ userid, events }: { userid: string; events: event[] }) => {
+  const router = useRouter();
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-// const Event = ({ userid, events }: { userid: string; events: event[] }) => {
-//   const router = useRouter();
-//   const [cardOpen, setCardOpen] = useState<boolean>(false);
-//   // const [events, setEvents] = useState<any>([]);
+  const handleClickNext = () => {
+    setCurrentTrackIndex((prevIndex) =>
+      prevIndex < events.length - 1 ? prevIndex + 1 : 0
+    );
+  };
 
-//   const { handleSubmit, setValue, watch, control } = useForm({
-//     mode: "onChange",
-//   });
-//   const { pending } = useFormStatus();
-//   const { isDirty, isValid, errors } = useFormState({ control });
+  const handleClickPrevious = () => {
+    setCurrentTrackIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : events.length - 1
+    );
+  };
+  return (
+    <div className=" p-10 relative min-h-screen bg-gray-200">
+      <div className=" max-h-[60dvh]  overflow-y-auto flex flex-col gap-5 scrollbar-hide">
+        <p className=" text-2xl">Playlist</p>
+        {events.map((event, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-5 p-5 bg-white rounded-xl shadow-lg cursor-pointer"
+          >
+            <div className="w-20 h-20 bg-gray-500 rounded-full" />
+            <div className="flex-1">
+              <h2 className=" text-xl">{event.title}</h2>
+              <p className=" text-gray-500">{event.artists.join(", ")}</p>
+            </div>
 
-//   const onSubmit = async (formdata: formdata) => {
-//     const userCredential = {
-//       userId: userid,
-//       name: formdata.name,
-//       description: formdata.description,
-//       category: formdata.category,
-//       capacity: formdata.capacity,
-//       visibility: formdata.visibility,
-//     };
+            <button
+              onClick={() => setCurrentTrackIndex(index)}
+              className="bg-cyan-500 p-3 rounded-full hover:bg-cyan-600 transition-colors"
+            >
+             {index===currentTrackIndex ? <IoMdPause className=" text-black"/> : <FaPlay className=" text-black" />}
+            </button>
+          </div>
+        ))}
+      </div>
 
-//     console.log("init", userCredential);
-//     try {
-//       const res = await createEvent(userCredential);
-//       console.log(res);
+      <div className=" absolute bottom-0 left-0 min-w-full bg-gray-600 p-5 flex flex-col gap-5 w-full max-w-md rounded-xl shadow-lg">
+        <h2 className=" text-2xl text-white text-center">
+          {events[currentTrackIndex].title}
+        </h2>
 
-//       if (res.message === "Event created successfully") {
-//         toast.success("Event created successfully");
-//       } else {
-//         toast.error(res.message ?? "Error in creating event");
-//       }
-//       //   if (res.message === "User not found") {
-//       //     toast.error("User not found");
-//       //   }
-//       //   if (res.message === "Incorrect password") {
-//       //     toast.error("Incorrect password");
-//       //   }
-//       //   if (res.message === "Error in login") {
-//       //     toast.error("Error in login");
-//       //   }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
+        <AudioPlayer
+          autoPlay
+          src={events[currentTrackIndex].src}
+          onPlay={(e) => console.log("onPlay")}
+          onClickNext={handleClickNext}
+          onClickPrevious={handleClickPrevious}
+          showSkipControls
+          showJumpControls={false}
+          className="rhap_container rounded-md shadow-md"
+          //   customProgressBarSection={[
+          //     <div key="progress" className="w-full flex items-center gap-2">
+          //       <div className="flex-1 h-1 bg-gray-600 rounded-full">
+          //         <div
+          //           className="h-full bg-cyan-500 rounded-full transition-all duration-100"
+          //           style={{ width: '30%' }} // Replace with actual progress
+          //         />
+          //       </div>
+          //       <span className="text-gray-400 text-sm">2:15</span>
+          //       <span className="text-gray-400 text-sm">-1:30</span>
+          //     </div>
+          //   ]}
+          //   customControlsSection={[
+          //     <div
+          //       key="controls"
+          //       className="flex items-center justify-between w-full"
+          //     >
+          //       <button
+          //         onClick={handleClickPrevious}
+          //         className="text-white hover:text-cyan-400 p-2 transition-colors"
+          //       >
+          //         <svg
+          //           className="w-8 h-8"
+          //           fill="none"
+          //           viewBox="0 0 24 24"
+          //           stroke="currentColor"
+          //         >
+          //           <path
+          //             strokeLinecap="round"
+          //             strokeLinejoin="round"
+          //             strokeWidth={2}
+          //             d="M15 19l-7-7 7-7"
+          //           />
+          //         </svg>
+          //       </button>
 
-//   // useEffect(() => {
-//   //   const GetAllEvents = async () => {
-//   //     const res = await getEvents("public");
-//   //     setEvents(res);
-//   //     console.log("all events", res);
-//   //   };
-//   //   GetAllEvents();
-//   // }, []);
+          //       <button className="bg-cyan-500/20 p-4 rounded-full hover:bg-cyan-500/30 transition-colors">
+          //         <svg
+          //           className="w-8 h-8 text-cyan-400"
+          //           fill="none"
+          //           viewBox="0 0 24 24"
+          //           stroke="currentColor"
+          //         >
+          //           <path
+          //             strokeLinecap="round"
+          //             strokeLinejoin="round"
+          //             strokeWidth={2}
+          //             d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+          //           />
+          //           <path
+          //             strokeLinecap="round"
+          //             strokeLinejoin="round"
+          //             strokeWidth={2}
+          //             d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          //           />
+          //         </svg>
+          //       </button>
 
-//   return (
-//     <div className=" p-10 relative min-h-screen">
-//       <div className=" w-52 h-32 bg-gray-600 rounded-xl p-3 flex flex-col items-center gap-4 justify-center">
-//         <p className=" text-2xl font-bold">Add Event</p>
+          //       <button
+          //         onClick={handleClickNext}
+          //         className="text-white hover:text-cyan-400 p-2 transition-colors"
+          //       >
+          //         <svg
+          //           className="w-8 h-8"
+          //           fill="none"
+          //           viewBox="0 0 24 24"
+          //           stroke="currentColor"
+          //         >
+          //           <path
+          //             strokeLinecap="round"
+          //             strokeLinejoin="round"
+          //             strokeWidth={2}
+          //             d="M9 5l7 7-7 7"
+          //           />
+          //         </svg>
+          //       </button>
+          //     </div>,
+          //   ]}
+        />
+      </div>
 
-//         <FaCirclePlus
-//           color=""
-//           size={40}
-//           onClick={() => setCardOpen(true)}
-//           className=" cursor-pointer"
-//         />
-//       </div>
+      <ToastContainer />
+    </div>
+  );
+};
 
-//       {cardOpen && (
-//         <div className=" absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-//           <form
-//             onSubmit={handleSubmit(onSubmit)}
-//             className=" flex flex-col gap-5 p-5 bg-gray-600 rounded-lg"
-//           >
-//             <Controller
-//               name="name"
-//               control={control}
-//               defaultValue={""}
-//               rules={{
-//                 required: "Name is required",
-//               }}
-//               render={({ field }) => (
-//                 <div className=" flex flex-col gap-2">
-//                   {" "}
-//                   <label>
-//                     Event name <span className=" text-red-600">*</span>
-//                   </label>
-//                   <input
-//                     {...field}
-//                     type="text"
-//                     placeholder="Enter Event Name"
-//                     className=" w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
-//                   />
-//                   {errors.name && (
-//                     <p className=" text-red-600">
-//                       {typeof errors.name?.message === "string" &&
-//                         errors.name.message}
-//                     </p>
-//                   )}
-//                 </div>
-//               )}
-//             />
-//             <Controller
-//               name="description"
-//               control={control}
-//               defaultValue={""}
-//               rules={{
-//                 required: "description should not be more than 250 characters",
-//                 maxLength: {
-//                   value: 250,
-//                   message: "description should not be more than 250 characters",
-//                 },
-//               }}
-//               render={({ field }) => (
-//                 <div className=" flex flex-col gap-2">
-//                   {" "}
-//                   <label>
-//                     Description <span className=" text-red-600">*</span>
-//                   </label>
-//                   <input
-//                     {...field}
-//                     type="text"
-//                     placeholder="Enter Description"
-//                     className=" w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
-//                   />
-//                   {errors.description && (
-//                     <p className=" text-red-600">
-//                       {typeof errors.description?.message === "string" &&
-//                         errors.description.message}
-//                     </p>
-//                   )}
-//                 </div>
-//               )}
-//             />
-//             <Controller
-//               name="category"
-//               control={control}
-//               defaultValue={""}
-//               render={({ field }) => (
-//                 <div className=" flex flex-col gap-2">
-//                   {" "}
-//                   <label>
-//                     Category <span className=" text-red-600">*</span>
-//                   </label>
-//                   <input
-//                     {...field}
-//                     type="text"
-//                     placeholder="Enter Email ID"
-//                     className=" w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
-//                   />
-//                 </div>
-//               )}
-//             />
-//             <Controller
-//               name="capacity"
-//               control={control}
-//               defaultValue={""}
-//               rules={{
-//                 required: "Capacity should be a number between 1 and 1000",
-//                 pattern: {
-//                   value: /^[0-9]*$/,
-//                   message: "Capacity should be a number between 1 and 1000",
-//                 },
-//               }}
-//               render={({ field }) => (
-//                 <div className=" flex flex-col gap-2">
-//                   {" "}
-//                   <label>
-//                     Capacity <span className=" text-red-600">*</span>
-//                   </label>
-//                   <input
-//                     {...field}
-//                     type="text"
-//                     placeholder="Enter capacity"
-//                     className=" w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
-//                   />
-//                   {errors.email && (
-//                     <p className=" text-red-600">
-//                       {typeof errors.email?.message === "string" &&
-//                         errors.email.message}
-//                     </p>
-//                   )}
-//                 </div>
-//               )}
-//             />
-//             <Controller
-//               name="visibility"
-//               control={control}
-//               defaultValue={""}
-//               render={({ field }) => (
-//                 <div className=" flex flex-col gap-2">
-//                   {" "}
-//                   <label>
-//                     Visibility <span className=" text-red-600">*</span>
-//                   </label>
-//                   <input
-//                     {...field}
-//                     type="text"
-//                     placeholder="Enter Email ID"
-//                     className=" w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
-//                   />
-//                   {errors.visibility && (
-//                     <p className=" text-red-600">
-//                       {typeof errors.visibility?.message === "string" &&
-//                         errors.visibility.message}
-//                     </p>
-//                   )}
-//                 </div>
-//               )}
-//             />
-//             <DatePkr name="date" label="Date" className="md:row-start-2" />
-
-//             {/* maxValue={tod} */}
-
-//             <button
-//               disabled={!isValid}
-//               type="submit"
-//               className={` ${
-//                 isValid ? "bg-black text-white" : " bg-gray-400 text-white"
-//               }  font-semibold  rounded-md py-2`}
-//             >
-//               Submit
-//             </button>
-//           </form>
-//         </div>
-//       )}
-
-//       <div className=" flex gap-4 flex-wrap">
-//         {events?.length > 0 ? (
-//           events.map((event, idx) => (
-//             <div
-//               key={idx}
-//               className=" w-96  border-[1px] border-black rounded-xl p-3 flex flex-col items-center gap-4 justify-center"
-//             >
-//               <p className=" text-2xl font-bold">Name: {event.name}</p>
-//               <p className=" text-lg">Description:{event.description}</p>
-//               <p className=" text-lg">Category: {event.category}</p>
-//               <p className=" text-lg">Capacity: {event.capacity}</p>
-//               <p className=" text-lg">Visibility: {event.visibility}</p>
-//             </div>
-//           ))
-//         ) : (
-//           <p>No events created Yet</p>
-//         )}
-//       </div>
-
-//       <ToastContainer />
-//     </div>
-//   );
-// };
-
-// export default Event;
+export default Event;

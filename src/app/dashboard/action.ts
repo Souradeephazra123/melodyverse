@@ -6,21 +6,14 @@ interface formdata {
   capacity: number;
   visibility: string;
 }
-export async function createEvent(formdata: formdata) {
+export async function getSongs() {
   try {
-    console.log(formdata);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/create-event`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formdata),
-      }
-    );
-
-    console.log("login res", res);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/songs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     return res.json();
   } catch (error) {

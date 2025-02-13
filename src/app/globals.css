@@ -19,3 +19,65 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 } */
+
+
+.rhap_container {
+  background-color: #f3f4f6; /* Light grey background */
+  border-radius: 0.75rem; /* Rounded corners */
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Soft shadow */
+}
+
+.rhap_progress-bar {
+  background-color: #d1d5db; /* Lighter progress bar background */
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.rhap_progress-indicator {
+  background-color: #6366f1; /* Indigo progress indicator */
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.rhap_volume-bar-wrapper {
+  width: 3rem; /* Adjust volume bar width */
+}
+
+.rhap_volume-bar {
+  background-color: #d1d5db;
+  border-radius: 0.25rem;
+}
+
+.rhap_volume-indicator {
+  background-color: #6366f1;
+  border-radius: 0.25rem;
+}
+
+.rhap_time {
+  color: #4b5563; /* Darker time text */
+  font-size: 0.875rem;
+}
+
+.rhap_controls-section button {
+  color: #4b5563; /* Darker control icons */
+  font-size: 1.5rem; /* Larger icons */
+  transition: color 0.2s ease-in-out;
+}
+
+.rhap_controls-section button:hover {
+  color: #6366f1; /* Indigo hover color */
+}
+
+.rhap_skip-button {
+  font-size: 1.25rem; /* Adjust skip button size if needed */
+}
+
+.rhap_play-pause-button {
+  font-size: 2rem; /* Larger play/pause button */
+}
+
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
