@@ -28,7 +28,7 @@ const Event = ({ events }: {  events: event[] }) => {
   };
   return (
     <div className=" p-10 relative min-h-screen bg-gray-200">
-      <div className=" max-h-[60dvh]  overflow-y-auto flex flex-col gap-5 scrollbar-hide">
+      <div className="max-h-[60dvh] sm:max-h-[60dvh]  overflow-y-auto flex flex-col gap-5 scrollbar-hide">
         <p className=" text-2xl">Playlist</p>
         {events?.length > 0 ? (
           events.map((event, index) => (
@@ -59,7 +59,7 @@ const Event = ({ events }: {  events: event[] }) => {
         )}
       </div>
 
-      <div className=" absolute bottom-0 left-0 min-w-full bg-gray-600 p-5 flex flex-col gap-5 w-full max-w-md rounded-xl shadow-lg">
+      <div className=" fixed bottom-0 left-0 min-w-full bg-gray-600 p-5 flex flex-col gap-5 w-full max-w-md rounded-xl shadow-lg">
         <h2 className=" text-2xl text-white text-center">
           {events[currentTrackIndex]?.title}
         </h2>
