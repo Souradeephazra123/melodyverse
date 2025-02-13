@@ -12,21 +12,21 @@ interface SignUpFormData {
   email: string;
   name: string;
   password: string;
-  tndc:string
+  tndc: string;
 }
 
 const SignUp = () => {
   const router = useRouter();
   const [isHidden, setIsHidden] = React.useState(true);
   const { handleSubmit, setValue, watch, control } = useForm<SignUpFormData>({
-      mode: "onChange",
-    });
+    mode: "onChange",
+  });
   const { pending } = useFormStatus();
   const { isDirty, isValid, errors } = useFormState({ control });
 
   const onSubmit = async (formData: SignUpFormData) => {
     const res = await signUp(formData);
-    console.log("res of signup", res);
+
     if (res.message === "User created successfully") {
       toast.success("User created successfully");
       const res = await sendWelcomeMessage(formData.email, formData.name);
@@ -35,13 +35,11 @@ const SignUp = () => {
       }
       Cookie.set("userProfile", JSON.stringify(formData, null, 2));
       router.push("/login");
-      // }
     } else {
       console.log("error in user creation");
       toast.error(res.message);
     }
   };
-
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -155,7 +153,6 @@ const SignUp = () => {
           <Controller
             name="tndc"
             control={control}
-        
             rules={{
               required: "Please accept terms and conditions",
             }}

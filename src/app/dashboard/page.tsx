@@ -2,7 +2,7 @@ import React from "react";
 import { permanentRedirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Event from "@/components/Event";
-import { getEvents, getSongs } from "./action";
+import { getSongs } from "./action";
 
 const page = async () => {
   const cookieStore = await cookies();
@@ -10,16 +10,16 @@ const page = async () => {
   const userId = cookieStore?.get("userid");
   const id = userId ? userId.value : "";
   const userData = userCookie ? userCookie.value : null;
+  const access_token: string | undefined = cookieStore?.get("token")?.value;
   if (!userData) {
     return permanentRedirect("/login");
   }
 
-  const GetAllEvents = await getSongs();
-  console.log("songs", GetAllEvents);
+  const GetAllEvents = await getSongs(access_token);
 
   return (
     <div>
-      <Event userid={id} events={GetAllEvents} />
+      <Event events={GetAllEvents} />
     </div>
   );
 };
