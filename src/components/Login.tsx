@@ -48,11 +48,23 @@ const Login = ({
 
       if (res.message === "Login successful") {
         toast.success("Login successful");
-        Cookie.set("userProfile", JSON.stringify(userCredential, null, 2));
-        Cookie.set("token", res.access_token);
-        Cookie.set("userid", res.user_id);
+        Cookie.set("userProfile", JSON.stringify(userCredential, null, 2), {
+          secure: true,
+          sameSite: "strict",
+        });
+        Cookie.set("token", res.access_token, {
+          secure: true,
+          sameSite: "strict",
+        });
+        Cookie.set("userid", res.user_id, {
+          secure: true,
+          sameSite: "strict",
+        });
         if (RemeberMe) {
-          Cookie.set("remeberme", "true");
+          Cookie.set("remeberme", "true", {
+            secure: true,
+            sameSite: "strict",
+          });
         }
         router.push("/dashboard");
       } else {
@@ -95,7 +107,6 @@ const Login = ({
                 <input
                   {...field}
                   type="text"
-                
                   placeholder="Enter Email ID"
                   className=" w-[70vw] sm:w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
                 />
@@ -130,7 +141,6 @@ const Login = ({
                   <input
                     {...field}
                     type="text"
-                  
                     placeholder="Enter password"
                     className=" w-[70vw] sm:w-96 bg-Black rounded-lg p-2 placeholder:text-Grey-7 border-[1px] border-[#C1C1C1]"
                   />
@@ -154,12 +164,11 @@ const Login = ({
           <Controller
             name="remember"
             control={control}
-     
             render={({ field }) => (
               <div className=" flex flex-col gap-2">
                 {" "}
                 <div className="flex gap-1 items-center">
-                    <input
+                  <input
                     {...field}
                     type="checkbox"
                     className=" w-5 h-5 bg-Black rounded-lg p-2 text-black  border-[1px] border-[#C1C1C1]"
