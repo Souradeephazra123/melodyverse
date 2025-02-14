@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MelodyVerse
 
-## Getting Started
+## Project Description
 
-First, run the development server:
+Develop the login and signup screens for a fictional music streaming service called "MelodyVerse". These screens should be visually appealing, user-friendly, and function flawlessly across different devices (desktop, tablet, mobile).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requirements
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Technology Stack
+- React.js for component structure and functionality.
+- Tailwind CSS for styling.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Login Screen
+- Include fields for username/email and password.
+- Implement basic validation for empty fields and password strength using React state management and validation libraries.
+- Display clear error messages for invalid input.
+- Offer "Forgot Password" functionality (basic link for now).
+- Implement a "Remember Me" option using local storage or cookies.
+- Redirect to the application homepage after successful login using React Router.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Signup Screen
+- Include fields for username/email, password (with confirmation), and optional fields like name and profile picture.
+- Implement validation for the required fields and email format using React state management and validation libraries.
+- Include terms and conditions checkbox.
+- Display clear error messages and success messages.
+- Simulate sending a welcome email notification upon successful signup (no actual email sending required).
+- Redirect to the login screen after successful signup using React Router.
 
-## Learn More
+### General Requirements
+- Implement responsive design using Tailwind.
+- Ensure the screens are visually appealing and consistent with the "MelodyVerse" theme (design details left to your interpretation).
 
-To learn more about Next.js, take a look at the following resources:
+### Best Practices
+- Enforce input validation and sanitization to prevent vulnerabilities.
+- Protect against common attacks like SQL injection and XSS.
+- Securely store passwords using strong hashing algorithms (bcrypt or Argon2).
+- Implement proper error handling and provide informative error messages.
+- Write clean, well-structured, and documented code.
+- Consider using environment variables for sensitive information.
+- Handle sessions and token expiration effectively.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Bonus Points
+- Implement password reset functionality.
+- Integrate email verification for signup.
+- Add rate limiting to protect against brute force attacks.
+- Use middleware for authentication and authorization.
+- Write unit tests for API endpoints.
+- Add password visibility toggle.
+- Use animations or microinteractions with React libraries like Framer Motion to enhance user experience.
+- Include accessibility features like alt text and keyboard navigation using ARIA attributes and focus management.
+- Implement unit testing for your React components using Jest or similar libraries.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Setup Instructions
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd melodyverse
+    ```
+2.Install dependencies:
+    ```
+    npm install
+    ```
+3.Run the development server:
+    ```
+    npm run dev
+    ```
+4.Build for production:
+    ```
+    npm run build
+    ```
